@@ -2,8 +2,8 @@
 
 A dark, no-nonsense gym companion built for Programming Hero's Level 1, Assignment 6. Browse a library of workouts, drill into detailed instructions, and build out a daily training plan — capped at five lifts a day so you actually finish what you start.
 
-**Live site:** _add your deployed URL here_
-**Repository:** _add your GitHub repository URL here_
+**Live site:** [b14-a6-fit-log-nine-wheat.vercel.app](https://b14-a6-fit-log-nine-wheat.vercel.app)
+**Repository:** [github.com/JamesAnthonyPurification/B14-A6-Fit-Log](https://github.com/JamesAnthonyPurification/B14-A6-Fit-Log)
 
 ## Description
 
