@@ -16,7 +16,7 @@ FitLog lets you explore a library of 12 lifts pulled from a live API, view full 
 - **Tailwind CSS v4** for styling and responsive layout
 - **lucide-react** for icons
 - **react-hot-toast** for toast notifications
-- FitLog REST API (`https://api.abcz.workers.dev/api/fitlog`) as the data source
+- FitLog REST API (`https://api.abcz.workers.dev/api/fitlog`, with automatic fallback to `https://api.api-store.workers.dev/api/fitlog`) as the data source
 
 ## Key Features
 
@@ -28,6 +28,7 @@ FitLog lets you explore a library of 12 lifts pulled from a live API, view full 
 6. **Global navbar badges** — live "Plan" and "Saved" counters in the navbar link straight to `/my-plan`.
 7. **Library search** — instantly filter the workout grid by name or muscle-group tag.
 8. **Polished UX details** — active nav-link highlighting, a custom 404 page, smooth-scroll hero CTA, and responsive layouts for mobile, tablet, and desktop.
+9. **Resilient data fetching** — if the primary API is unreachable or rate-limited, the app automatically retries against a fallback endpoint, and shows a clear "try again" message with a retry button instead of a broken page if both are down.
 
 ## Getting Started
 
