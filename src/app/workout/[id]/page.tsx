@@ -85,7 +85,7 @@ export default function WorkoutDetailPage() {
             {workout.muscleGroups.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wide text-black"
+                className="whitespace-nowrap rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wide text-black"
               >
                 {tag}
               </span>
