@@ -5,23 +5,28 @@ import { Search } from "lucide-react";
 import Hero from "@/components/hero";
 import WorkoutCard from "@/components/workout-card";
 import WorkoutCardSkeleton from "@/components/workout-card-skeleton";
-import { getWorkouts } from "@/lib/api";
+import { ApiError, getWorkouts } from "@/lib/api";
 import { Workout } from "@/types/workout";
 
 export default function Home() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const [query, setQuery] = useState("");
+  const [retryToken, setRetryToken] = useState(0);
 
   useEffect(() => {
     let active = true;
+    /* eslint-disable react-hooks/set-state-in-effect -- reset loading/error state on manual retry */
+    setLoading(true);
+    setErrorStatus(null);
+    /* eslint-enable react-hooks/set-state-in-effect */
     getWorkouts()
       .then((data) => {
         if (active) setWorkouts(data);
       })
-      .catch(() => {
-        if (active) setError(true);
+      .catch((err) => {
+        if (active) setErrorStatus(err instanceof ApiError ? err.status : 0);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -29,7 +34,7 @@ export default function Home() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [retryToken]);
 
   const filteredWorkouts = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -40,6 +45,8 @@ export default function Home() {
         w.muscleGroups.some((tag) => tag.toLowerCase().includes(q))
     );
   }, [workouts, query]);
+
+  const isRateLimited = errorStatus === 429;
 
   return (
     <>
@@ -76,22 +83,32 @@ export default function Home() {
             ))}
 
           {!loading &&
-            !error &&
+            !errorStatus &&
             filteredWorkouts.map((workout) => (
               <WorkoutCard key={workout.id} workout={workout} />
             ))}
         </div>
 
-        {!loading && !error && filteredWorkouts.length === 0 && (
+        {!loading && !errorStatus && filteredWorkouts.length === 0 && (
           <p className="mt-10 text-center text-muted">
             No workouts match &ldquo;{query}&rdquo;.
           </p>
         )}
 
-        {!loading && error && (
-          <p className="mt-10 text-center text-muted">
-            Couldn&apos;t load workouts right now. Please try again shortly.
-          </p>
+        {!loading && errorStatus && (
+          <div className="mt-10 flex flex-col items-center gap-4 text-center">
+            <p className="text-muted">
+              {isRateLimited
+                ? "The workout API is getting hit too fast right now (rate limited). Please wait a moment and try again."
+                : "Couldn't load workouts right now. Please try again shortly."}
+            </p>
+            <button
+              onClick={() => setRetryToken((t) => t + 1)}
+              className="rounded-full border border-border px-5 py-2 text-sm font-semibold text-white transition-colors hover:border-accent/60"
+            >
+              Try Again
+            </button>
+          </div>
         )}
       </section>
     </>

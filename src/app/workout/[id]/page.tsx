@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import { CalendarPlus, Bookmark, Star } from "lucide-react";
-import { getWorkoutById } from "@/lib/api";
+import { ApiError, getWorkoutById } from "@/lib/api";
 import { Workout } from "@/types/workout";
 import { usePlan } from "@/context/plan-context";
 
@@ -24,19 +24,27 @@ export default function WorkoutDetailPage() {
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFoundError, setNotFoundError] = useState(false);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
+  const [retryToken, setRetryToken] = useState(0);
 
   useEffect(() => {
     let active = true;
-    /* eslint-disable react-hooks/set-state-in-effect -- reset loading/error state when navigating between workout ids */
+    /* eslint-disable react-hooks/set-state-in-effect -- reset loading/error state when navigating between workout ids or retrying */
     setLoading(true);
     setNotFoundError(false);
+    setErrorStatus(null);
     /* eslint-enable react-hooks/set-state-in-effect */
     getWorkoutById(params.id)
       .then((data) => {
         if (active) setWorkout(data);
       })
-      .catch(() => {
-        if (active) setNotFoundError(true);
+      .catch((err) => {
+        if (!active) return;
+        if (err instanceof ApiError && err.status === 404) {
+          setNotFoundError(true);
+        } else {
+          setErrorStatus(err instanceof ApiError ? err.status : 0);
+        }
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -44,16 +52,35 @@ export default function WorkoutDetailPage() {
     return () => {
       active = false;
     };
-  }, [params.id]);
+  }, [params.id, retryToken]);
 
   if (notFoundError) {
     notFound();
   }
 
-  if (loading || !workout) {
+  if (loading) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <p className="text-center text-muted">Loading workout…</p>
+      </div>
+    );
+  }
+
+  if (errorStatus || !workout) {
+    const isRateLimited = errorStatus === 429;
+    return (
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-16 text-center sm:px-6 lg:px-8">
+        <p className="text-muted">
+          {isRateLimited
+            ? "The workout API is getting hit too fast right now (rate limited). Please wait a moment and try again."
+            : "Couldn't load this workout right now. Please try again shortly."}
+        </p>
+        <button
+          onClick={() => setRetryToken((t) => t + 1)}
+          className="rounded-full border border-border px-5 py-2 text-sm font-semibold text-white transition-colors hover:border-accent/60"
+        >
+          Try Again
+        </button>
       </div>
     );
   }
