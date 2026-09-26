@@ -41,7 +41,7 @@ export default function PlanCard({
         </div>
       </div>
 
-      <div className="flex flex-shrink-0 items-center gap-2">
+      <div className="flex flex-shrink-0 flex-wrap items-center gap-2">
         <Link
           href={`/workout/${workout.id}`}
           className="rounded-full border border-border px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-accent/60"

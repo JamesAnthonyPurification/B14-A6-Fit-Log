@@ -26,7 +26,8 @@ FitLog lets you explore a library of 12 lifts pulled from a live API, view full 
 4. **My Plan dashboard** — live-updating Exercises/Minutes/Calories summary, tabbed Today's Plan / Saved views, a Sort By dropdown (Duration, Calories, Rating), "Mark as Done" and remove (×) actions, and a friendly empty state.
 5. **Persistent state** — plan and saved data are stored in `localStorage`, so your plan survives page reloads and revisits.
 6. **Global navbar badges** — live "Plan" and "Saved" counters in the navbar link straight to `/my-plan`.
-7. **Polished UX details** — active nav-link highlighting, a custom 404 page, smooth-scroll hero CTA, and responsive layouts for mobile, tablet, and desktop.
+7. **Library search** — instantly filter the workout grid by name or muscle-group tag.
+8. **Polished UX details** — active nav-link highlighting, a custom 404 page, smooth-scroll hero CTA, and responsive layouts for mobile, tablet, and desktop.
 
 ## Getting Started
 
