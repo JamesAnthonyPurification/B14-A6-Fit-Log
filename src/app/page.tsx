@@ -83,19 +83,19 @@ export default function Home() {
             ))}
 
           {!loading &&
-            !errorStatus &&
+            errorStatus === null &&
             filteredWorkouts.map((workout) => (
               <WorkoutCard key={workout.id} workout={workout} />
             ))}
         </div>
 
-        {!loading && !errorStatus && filteredWorkouts.length === 0 && (
+        {!loading && errorStatus === null && filteredWorkouts.length === 0 && (
           <p className="mt-10 text-center text-muted">
             No workouts match &ldquo;{query}&rdquo;.
           </p>
         )}
 
-        {!loading && errorStatus && (
+        {!loading && errorStatus !== null && (
           <div className="mt-10 flex flex-col items-center gap-4 text-center">
             <p className="text-muted">
               {isRateLimited

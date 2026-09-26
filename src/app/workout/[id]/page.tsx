@@ -33,6 +33,7 @@ export default function WorkoutDetailPage() {
     setLoading(true);
     setNotFoundError(false);
     setErrorStatus(null);
+    setWorkout(null);
     /* eslint-enable react-hooks/set-state-in-effect */
     getWorkoutById(params.id)
       .then((data) => {
@@ -66,7 +67,7 @@ export default function WorkoutDetailPage() {
     );
   }
 
-  if (errorStatus || !workout) {
+  if (errorStatus !== null || !workout) {
     const isRateLimited = errorStatus === 429;
     return (
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-16 text-center sm:px-6 lg:px-8">
