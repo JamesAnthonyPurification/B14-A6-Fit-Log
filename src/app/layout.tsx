@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Oswald, Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
@@ -17,10 +17,36 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const description =
+  "FitLog is a dark, no-nonsense gym companion: pick a lift, lock it into today's plan, and watch the week's work add up.";
+
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
 export const metadata: Metadata = {
-  title: "FitLog — Workout Library",
-  description:
-    "FitLog is a dark, no-nonsense gym companion: pick a lift, lock it into today's plan, and watch the week's work add up.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "FitLog — Workout Library",
+    template: "%s — FitLog",
+  },
+  description,
+  openGraph: {
+    title: "FitLog — Workout Library",
+    description,
+    type: "website",
+    images: ["/banner.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FitLog — Workout Library",
+    description,
+    images: ["/banner.png"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0b",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
