@@ -15,10 +15,20 @@ export default function MyPlanPage() {
   const [tab, setTab] = useState<Tab>("today");
   const [sortKey, setSortKey] = useState<SortKey>("duration");
 
-  const totalMinutes = plan.reduce((sum, p) => sum + p.duration, 0);
-  const totalCalories = plan.reduce((sum, p) => sum + p.caloriesBurned, 0);
-
   const activeList: Workout[] = tab === "today" ? plan : saved;
+
+  const stats = useMemo(
+    () =>
+      activeList.reduce(
+        (totals, w) => ({
+          count: totals.count + 1,
+          minutes: totals.minutes + w.duration,
+          calories: totals.calories + w.caloriesBurned,
+        }),
+        { count: 0, minutes: 0, calories: 0 }
+      ),
+    [activeList]
+  );
 
   const sortedList = useMemo(() => {
     const list = [...activeList];
@@ -42,19 +52,19 @@ export default function MyPlanPage() {
         <div className="px-6 py-5">
           <p className="text-sm text-muted-2">Exercises</p>
           <p className="mt-1 font-display text-3xl font-bold text-accent">
-            {plan.length}
+            {stats.count}
           </p>
         </div>
         <div className="px-6 py-5">
           <p className="text-sm text-muted-2">Minutes</p>
           <p className="mt-1 font-display text-3xl font-bold text-white">
-            {totalMinutes}
+            {stats.minutes}
           </p>
         </div>
         <div className="px-6 py-5">
           <p className="text-sm text-muted-2">Calories</p>
           <p className="mt-1 font-display text-3xl font-bold text-white">
-            {totalCalories}
+            {stats.calories}
           </p>
         </div>
       </div>
