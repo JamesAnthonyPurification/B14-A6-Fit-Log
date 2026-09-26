@@ -27,7 +27,10 @@ export default function WorkoutDetailPage() {
 
   useEffect(() => {
     let active = true;
+    /* eslint-disable react-hooks/set-state-in-effect -- reset loading/error state when navigating between workout ids */
     setLoading(true);
+    setNotFoundError(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
     getWorkoutById(params.id)
       .then((data) => {
         if (active) setWorkout(data);

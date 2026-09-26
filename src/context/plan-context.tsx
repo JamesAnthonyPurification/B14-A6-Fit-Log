@@ -4,7 +4,6 @@ import {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
   ReactNode,
 } from "react";
@@ -38,6 +37,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- one-time hydration from localStorage on mount */
     try {
       const storedPlan = localStorage.getItem(PLAN_KEY);
       const storedSaved = localStorage.getItem(SAVED_KEY);
@@ -47,6 +47,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       // ignore malformed storage
     }
     setLoaded(true);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   useEffect(() => {
@@ -98,22 +99,19 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     if (item) toast.success(`${item.name} marked as done`);
   };
 
-  const value = useMemo(
-    () => ({
-      plan,
-      saved,
-      loaded,
-      addToPlan,
-      addToSaved,
-      removeFromPlan,
-      removeFromSaved,
-      markAsDone,
-      isInPlan,
-      isSaved,
-      isPlanFull: plan.length >= PLAN_CAP,
-    }),
-    [plan, saved, loaded]
-  );
+  const value: PlanContextValue = {
+    plan,
+    saved,
+    loaded,
+    addToPlan,
+    addToSaved,
+    removeFromPlan,
+    removeFromSaved,
+    markAsDone,
+    isInPlan,
+    isSaved,
+    isPlanFull: plan.length >= PLAN_CAP,
+  };
 
   return <PlanContext.Provider value={value}>{children}</PlanContext.Provider>;
 }

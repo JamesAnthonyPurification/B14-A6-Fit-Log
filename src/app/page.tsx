@@ -14,7 +14,6 @@ export default function Home() {
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
     getWorkouts()
       .then((data) => {
         if (active) setWorkouts(data);

@@ -21,7 +21,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2 font-display text-xl font-bold uppercase tracking-wide text-white"
         >
-          <Dumbbell className="h-5 w-5 text-accent" />
+          <Image src="/logo.png" alt="" width={22} height={22} />
           FitLog
         </Link>
 
