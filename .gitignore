@@ -43,3 +43,6 @@ next-env.d.ts
 # agent-generated docs
 AGENTS.md
 CLAUDE.md
+
+# claude code session/tooling files
+.claude/
