@@ -36,6 +36,8 @@ export default function SortDropdown({
       <span className="text-muted-2">Sort By</span>
       <button
         onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
         className="flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-1.5 font-medium text-white"
       >
         {activeLabel}

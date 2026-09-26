@@ -60,8 +60,14 @@ export default function MyPlanPage() {
       </div>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-1 rounded-full border border-border bg-surface p-1">
+        <div
+          role="tablist"
+          aria-label="Plan lists"
+          className="flex items-center gap-1 rounded-full border border-border bg-surface p-1"
+        >
           <button
+            role="tab"
+            aria-selected={tab === "today"}
             onClick={() => setTab("today")}
             className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               tab === "today"
@@ -72,6 +78,8 @@ export default function MyPlanPage() {
             Today&apos;s Plan
           </button>
           <button
+            role="tab"
+            aria-selected={tab === "saved"}
             onClick={() => setTab("saved")}
             className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               tab === "saved"

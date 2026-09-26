@@ -63,6 +63,7 @@ export default function Home() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name or tag"
+              aria-label="Search workouts by name or tag"
               className="w-full rounded-full border border-border bg-surface py-2 pl-9 pr-4 text-sm text-white placeholder:text-muted-2 focus:border-accent/60 focus:outline-none"
             />
           </div>
