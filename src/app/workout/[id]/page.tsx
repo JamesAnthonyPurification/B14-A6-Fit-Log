@@ -113,7 +113,7 @@ export default function WorkoutDetailPage() {
             {workout.muscleGroups.map((tag) => (
               <span
                 key={tag}
-                className="whitespace-nowrap rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wide text-black"
+                className="whitespace-nowrap rounded-full bg-accent px-3 py-1 text-xs font-bold text-black"
               >
                 {tag}
               </span>
@@ -159,7 +159,7 @@ export default function WorkoutDetailPage() {
             <button
               onClick={() => addToPlan(workout)}
               disabled={addDisabled}
-              className="flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-display text-sm font-bold uppercase tracking-wide text-black transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+              className="flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-bold text-black transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
             >
               <CalendarPlus className="h-4 w-4" />
               {alreadyInPlan ? "Already in plan" : "Add to today's plan"}
@@ -167,7 +167,7 @@ export default function WorkoutDetailPage() {
             <button
               onClick={() => addToSaved(workout)}
               disabled={alreadySaved}
-              className="flex items-center gap-2 rounded-full border border-border px-6 py-3 font-display text-sm font-bold uppercase tracking-wide text-white transition-colors hover:border-accent/60 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-bold text-white transition-colors hover:border-accent/60 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <Bookmark className="h-4 w-4" />
               {alreadySaved ? "Saved" : "Save for later"}
